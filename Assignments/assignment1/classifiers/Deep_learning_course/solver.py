@@ -9,7 +9,7 @@ import pickle as pickle
 
 import numpy as np
 
-from .optim import *
+import classifiers.Deep_learning_course.optim as optim
 
 class Solver(object):
     """

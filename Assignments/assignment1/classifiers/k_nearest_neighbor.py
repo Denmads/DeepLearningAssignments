@@ -131,7 +131,10 @@ class KNearestNeighbor(object):
         #########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        M = np.dot(X, self.X_train.T)
+        te = np.square(X).sum(axis=1)
+        tr = np.square(self.X_train).sum(axis=1)
+        dists = np.asarray(-2*M + np.matrix(tr) + np.matrix(te).T)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
@@ -164,11 +167,9 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            sorted_dists = np.argsort(dists, axis=1)
-            k_closest = sorted_dists[:, :k]
-            y_closest = [self.y_train.item(j) for j in k_closest] 
-
-
+            sorted_dists = np.argsort(dists[i])
+            k_closest = sorted_dists[:k]
+            closest_y = [self.y_train.item(j) for j in k_closest] 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
             #########################################################################
             # TODO:                                                                 #
@@ -179,9 +180,9 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            print(y_closest)
-            counts = Counter(y_closest)
-            y_pred[i] = counts.most_common(1)
+            count = np.bincount(closest_y)
+            label = np.argmax(count)
+            y_pred[i] = label
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
