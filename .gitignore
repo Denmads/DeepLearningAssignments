@@ -1,6 +1,7 @@
 # Custom
 HAM10000/
 data/
+images/
 *.chp
 *.npz
 
